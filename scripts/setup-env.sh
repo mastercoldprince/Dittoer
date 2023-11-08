@@ -120,24 +120,15 @@ conda init zsh
 # then carefully recreate it with a larger size at the same position
 echo "p
 d
-
-d
-
-d
-
-d
-
-d
-
+1
 n
-p
 1
 
 
-
-No
+N
 p
 w
+
 " | sudo fdisk /dev/sda
 
 # chsh
