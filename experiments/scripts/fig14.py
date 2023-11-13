@@ -10,7 +10,6 @@ from utils.plots import plot_fig14
 from cluster_setting import *
 
 st = time.time()
-
 work_dir = f'{EXP_HOME}/experiments/ycsb_test'
 
 cmd_manager = CMDManager(cluster_ips)

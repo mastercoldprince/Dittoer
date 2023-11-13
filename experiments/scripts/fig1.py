@@ -4,7 +4,6 @@ import time
 import os
 import subprocess
 import numpy as np
-
 from cluster_setting import *
 from utils.cmd_manager import CMDManager
 from utils.utils import save_res, save_time
@@ -84,12 +83,14 @@ os.system(cmd)
 # notify instance controllers to check master change
 mc.set('cluster-change', 1)
 # add empty masters to the cluster
+# TODO: problem start here.
 for i in scale_instances:
     os.system(f'redis-cli --cluster add-node \
-              {i} {initial_instances[0]}')
+            {i} {initial_instances[0]}')
     val = mc.get(f'{i}-success')
     while val == None:
         val = mc.get(f'{i}-success')
+
 
 
 # notify instance controllers to check master change
@@ -97,7 +98,7 @@ mc.set('cluster-change', 1)
 # add empty masters to the cluster
 for i in scale_instances:
     os.system(f'redis-cli --cluster add-node \
-              {i} {initial_instances[0]}')
+            {i} {initial_instances[0]}')
     val = mc.get(f'{i}-success')
     while val == None:
         val = mc.get(f'{i}-success')
@@ -136,7 +137,7 @@ time.sleep(rebalance_start_time)
 print('Start rebalance')
 st = time.time()
 os.system(f'redis-cli --cluster rebalance \
-          {initial_instances[0]} --cluster-use-empty-masters')
+        {initial_instances[0]} --cluster-use-empty-masters')
 et = time.time()
 print(f"Rebalance finishes in {et - st}s")
 rebalance_period = et - st
@@ -151,7 +152,7 @@ for i in all_instances:
     host = i.split(':')[0]
     port = i.split(':')[1]
     proc = subprocess.Popen(f'redis-cli -h {host} -p {port} \
-                            cluster nodes | grep myself',
+            cluster nodes | grep myself',
                             stdout=subprocess.PIPE, shell=True)
     proc.wait()
     output = proc.stdout.read().decode().strip()
@@ -167,7 +168,7 @@ while True:
     ip_slots = {}
     for i in all_instances:
         proc = subprocess.Popen(f'redis-cli --cluster check {i}\
-                                | grep {i}', stdout=subprocess.PIPE,
+                | grep {i}', stdout=subprocess.PIPE,
                                 shell=True)
         proc.wait()
         l = proc.stdout.readline().decode().strip()
@@ -191,9 +192,9 @@ while True:
             continue
         target_inst = scale2target[inst]
         reshard_cmd = f'redis-cli --cluster reshard {inst} \
-                  --cluster-from {ip_node_id[inst]} \
-                  --cluster-to {ip_node_id[target_inst]} \
-                  --cluster-slots {num_slots} --cluster-yes > /dev/null 2>&1'
+                --cluster-from {ip_node_id[inst]} \
+                --cluster-to {ip_node_id[target_inst]} \
+                --cluster-slots {num_slots} --cluster-yes > /dev/null 2>&1'
         print(reshard_cmd)
         os.system(reshard_cmd)
         time.sleep(2)
@@ -207,7 +208,7 @@ while True:
         time.sleep(5)
         print(f"Remove {inst}")
         os.system(
-            f'redis-cli --cluster del-node {instance_ips[0]}:7000 {ip_node_id[inst]}')
+                f'redis-cli --cluster del-node {instance_ips[0]}:7000 {ip_node_id[inst]}')
 et = time.time()
 shrink_period = et - st
 print(f"Reshard finishes in {shrink_period}s")
@@ -266,15 +267,15 @@ for m in combined_lat_map:
 sft = [0] + list(agg)[:-1]
 tpt = (agg - sft) / 0.5
 combined_res = {
-    'tpt': list(tpt),
-    'p50_cont': p50_cont,
-    'p99_cont': p99_cont,
-    'rebalance_start_time': res['rebalance_start_time'],
-    'rebalance_end_time': res['rebalance_end_time'],
-    'shrink_start_time': res['shrink_start_time'],
-    'shrink_end_time': res['shrink_end_time'],
-    'shrink_period_1': res['shrink_period_1']
-}
+        'tpt': list(tpt),
+        'p50_cont': p50_cont,
+        'p99_cont': p99_cont,
+        'rebalance_start_time': res['rebalance_start_time'],
+        'rebalance_end_time': res['rebalance_end_time'],
+        'shrink_start_time': res['shrink_start_time'],
+        'shrink_end_time': res['shrink_end_time'],
+        'shrink_period_1': res['shrink_period_1']
+        }
 
 save_res('fig1', combined_res)
 
