@@ -30,8 +30,9 @@ MN_CPU_CMD = get_mn_cpu_cmd(config_dir, 1)
 cmd_manager.execute_all(MN_CPU_CMD)
 
 # start experiment
-method_list = ['sample-adaptive', 'cliquemap-precise-lru',
-               'cliquemap-precise-lfu', 'shard-lru']
+# method_list = ['sample-adaptive', 'cliquemap-precise-lru',
+#                'cliquemap-precise-lfu', 'shard-lru']
+method_list = ['sample-adaptive', 'shard-lru']
 client_num_list = [1, 2, 4, 8, 16, 32, 64, 96, 128, 192, 224, 256]
 workload_list = ['ycsba', 'ycsbb', 'ycsbc', 'ycsbd']
 

@@ -25,8 +25,7 @@ cmd_manager.execute_all(FC_CONFIG_CMD)
 MN_CPU_CMD = get_mn_cpu_cmd(config_dir, 1)
 cmd_manager.execute_all(MN_CPU_CMD)
 
-method_list = ['sample-adaptive', 'sample-lru', 'sample-lfu',
-               'cliquemap-precise-lru', 'cliquemap-precise-lfu']
+method_list = ['sample-adaptive', 'sample-lru', 'sample-lfu', ]
 
 # All methods use the same compile option
 MAKE_CMD = get_make_cmd(build_dir, 'sample-adaptive', "webmail-all", "0.2")

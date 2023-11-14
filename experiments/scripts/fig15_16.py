@@ -26,8 +26,10 @@ cmd_manager.execute_all(FC_CONFIG_CMD)
 MN_CPU_CMD = get_mn_cpu_cmd(config_dir, 1)
 cmd_manager.execute_all(MN_CPU_CMD)
 
-method_list = ['sample-adaptive', 'sample-lru', 'sample-lfu',
-               'cliquemap-precise-lru', 'cliquemap-precise-lfu']
+# method_list = ['sample-adaptive', 'sample-lru', 'sample-lfu',
+#                'cliquemap-precise-lru', 'cliquemap-precise-lfu']
+
+method_list = ['sample-adaptive', 'sample-lru', 'sample-lfu',]
 workload_list = ['webmail-all', 'twitter020-10m',
                  'twitter049-10m', 'twitter042-10m', 'ibm044-10m']
 cache_size_list = ['0.2', '0.1', '0.05', '0.01']

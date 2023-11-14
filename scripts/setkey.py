@@ -1,18 +1,18 @@
 import os
 
-user = 'AEUser'
+user = 'coldp'
 
 server_list = [
-    'clnode274.clemson.cloudlab.us',
-    'clnode279.clemson.cloudlab.us',
-    'clnode281.clemson.cloudlab.us',
-    'clnode270.clemson.cloudlab.us',
-    'clnode271.clemson.cloudlab.us',
-    'clnode254.clemson.cloudlab.us',
-    'clnode282.clemson.cloudlab.us',
-    'clnode253.clemson.cloudlab.us',
-    'clnode259.clemson.cloudlab.us',
-    'clnode266.clemson.cloudlab.us',
+    'node0',
+    'node1',
+    'node2',
+    'node3',
+    'node4',
+    'node5',
+    'node6',
+    'node7',
+    'node8',
+    'node9',
 ]
 
 # generate keys

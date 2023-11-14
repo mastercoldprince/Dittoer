@@ -28,9 +28,10 @@ cmd_manager.execute_all(MN_CPU_CMD)
 CACHE_CONFIG_CMD = get_cache_config_cmd(config_dir, "changing", None)
 cmd_manager.execute_all(CACHE_CONFIG_CMD)
 
-method_list = ['sample-adaptive', 'sample-lru', 'sample-lfu',
-               'cliquemap-precise-lru', 'cliquemap-precise-lfu']
+# method_list = ['sample-adaptive', 'sample-lru', 'sample-lfu',
+#                'cliquemap-precise-lru', 'cliquemap-precise-lfu']
 
+method_list = ['sample-adaptive', 'sample-lru', 'sample-lfu', ]
 MAKE_CMD = get_make_cmd(build_dir, 'sample-adaptive', "changing", None)
 cmd_manager.execute_all(MAKE_CMD)
 
