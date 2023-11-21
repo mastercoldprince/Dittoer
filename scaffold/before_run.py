@@ -15,7 +15,7 @@ args = parser.parse_args()
 
 # Define the server list
 server_list = [
-    "ms1019.utah.cloudlab.us",
+    "node0",
 ]
 
 # User
