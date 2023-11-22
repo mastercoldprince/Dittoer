@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD 17)
 find_package(Boost REQUIRED)
 include_directories(src)
 
+#性能测试的时候去掉Debug
 set(CMAKE_BUILD_TYPE Debug)
 
 set(use_shard_pqueue OFF CACHE BOOL "set USE_SHARD_PQUEUE")

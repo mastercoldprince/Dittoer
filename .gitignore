@@ -11,5 +11,6 @@ experiments/workloads/ibm*
 experiments/workloads/cphy*
 scripts/install/*
 .clangd
+clib_custom/*
 *__pycache__
 .DS_Store
