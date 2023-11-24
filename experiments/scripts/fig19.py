@@ -51,10 +51,10 @@ for method in method_list:
 
         time.sleep(5)
         c_prom_list = []
-        for i in range(2):
-            st_cid = i*32+1
+        for i in range(8):
+            st_cid = i*8+1
             c_prom = cmd_manager.execute_on_node(
-                client_ids[i], f"cd {work_dir} && ./run_client_master.sh {method} {st_cid} changing 32 64")
+                client_ids[i], f"cd {work_dir} && ./run_client_master.sh {method} {st_cid} changing 8 64")
             c_prom_list.append(c_prom)
 
         # wait for Clients and MN

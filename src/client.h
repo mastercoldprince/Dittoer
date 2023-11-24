@@ -321,8 +321,9 @@ class DMCClient {
                 uint32_t key_size,
                 __OUT void* val,
                 __OUT uint32_t* val_size);
-
+    //for anole
   int kv_set_1s(void* key, uint32_t key_size, void* val, uint32_t val_size);
+    //for cliquemap
   int kv_set_2s(void* key, uint32_t key_size, void* val, uint32_t val_size);
 
   void log_op(const char* op, void* key, uint32_t key_size, bool miss);

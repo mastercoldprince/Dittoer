@@ -32,6 +32,8 @@ cmd_manager.execute_all(FC_CONFIG_CMD)
 MN_CPU_CMD = get_mn_cpu_cmd(config_dir, 1)
 cmd_manager.execute_all(MN_CPU_CMD)
 
+# 
+
 # start experiment
 method_list = ['sample-adaptive']
 client_num = int(sys.argv[1])
@@ -69,6 +71,7 @@ for i in range(num_CN):
 # wait Clients and MN
 for c_prom in c_prom_list:
     c_prom.join()
+
 mn_prom.join()
 
 raw_res = controller_prom.join()

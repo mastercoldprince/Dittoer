@@ -18,7 +18,7 @@ if [ -z "$out_fname" ]; then
 fi
 
 # memcached_ip="10.10.1.1"
-
+# 1 64 workload = webmail 
 python ../controller.py $workload -s $num_servers -c $num_clients -o $out_fname -m $memcached_ip
 
 # if [ $workload = "webmail-all" ]; then

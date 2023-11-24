@@ -4,12 +4,15 @@ import argparse
 import json
 import numpy as np
 
+# ycsb负载生成器的数量
 NUM_YCSB_LOADERS = 16
+# CPU弹性变化前的时间
 ELA_TPT_SCALE_CPU_TIME = 180
 # ELA_TPT_SCALE_CPU_RUN_TIME = 500 # ycsba
 # ELA_TPT_SCALE_CPU_RUN_TIME = 487 # ycsbc
 ELA_TPT_SCALE_CPU_RUN_TIME = 488  # ycsbc
 ELA_TPT_TOTAL_CPU_RUN_TIME = 1200
+# 内存变化前的时间
 ELA_HR_SCALE_MEM_TIME = 40
 # ELA_SCALE_TIME = 10
 # ELA_SCALE_RUN_TIME = 10
@@ -26,7 +29,7 @@ class DMCMemcachedController:
         self.num_sync = 0
         self.num_result = 0
         self.mc = memcache.Client(
-            ['{}:{}'.format(memcached_ip, memcached_port)], debug=False)
+            ['{}:{}'.format(memcached_ip, memcached_port)], debug=True)
         assert (self.mc != None)
         self.mc.flush_all()
 
@@ -54,6 +57,8 @@ class DMCMemcachedController:
         for i in range(self.num_clients):
             cid = i + self.num_servers
             key = "client-{}-ready-{}".format(cid, self.num_sync)
+            # 检查其他的节点有没有向node0发送ready信息
+            # 如果node0
             val = self.mc.get(key)
             while val == None:
                 val = self.mc.get(key)
@@ -617,6 +622,7 @@ def control_workload_bench_ela_mem(controller: DMCMemcachedController):
     return combined_dict
 
 
+# fig15_16
 def control_workload_bench(controller: DMCMemcachedController):
     # sync warmup
     controller.sync_ready_clients()
