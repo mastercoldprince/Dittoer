@@ -163,13 +163,23 @@ class MRUPriority : public Priority {
   }
 };
 
-class HyperbolicPriority : public Priority {
+// class HyperbolicPriority : public Priority {
+//  public:
+//   uint32_t info_update_mask(const SlotMeta* meta) { return UPD_FREQ; }
+//   double parse_priority(const SlotMeta* meta, uint8_t size) {
+//     uint64_t cur_ts = new_ts();
+//     uint64_t ins_ts = meta->acc_info.ins_ts;
+//     return (double)meta->acc_info.freq / (cur_ts - ins_ts);
+//   }
+// };
+
+class HyperbolicPriority : public Priority {//移花接木，这里实际上是一个简单逻辑的S3-FIFO，每次选择freq最低并且最老的那个淘汰
  public:
-  uint32_t info_update_mask(const SlotMeta* meta) { return UPD_FREQ; }
+  uint32_t info_update_mask(const SlotMeta* meta) { return UPD_TS | UPD_FREQ; }
   double parse_priority(const SlotMeta* meta, uint8_t size) {
     uint64_t cur_ts = new_ts();
-    uint64_t ins_ts = meta->acc_info.ins_ts;
-    return (double)meta->acc_info.freq / (cur_ts - ins_ts);
+    uint64_t acc_ts = meta->acc_info.acc_ts;
+    return (((double)meta->acc_info.freq + 1) * 100000) / (cur_ts - acc_ts);
   }
 };
 
@@ -202,6 +212,8 @@ static inline Priority* dmc_new_priority(uint8_t eviction_prio) {
       return new HyperbolicPriority();
     case EVICT_PRIO_NON:
       return new DumbPriority();
+    // case EVICT_PRIO_S3FIFO:
+    //   return new S3FIFOPriority();
     default:
       printd(L_ERROR, "Unknown eviction type %d", eviction_prio);
       return NULL;

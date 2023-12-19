@@ -21,6 +21,8 @@ cmd_manager.execute_on_nodes(
 method_list = ['sample-lru', 'sample-lfu', 'sample-mru', 'sample-gds', 'sample-lirs', 'sample-fifo',
                'sample-size', 'sample-gdsf', 'sample-lrfu', 'sample-lruk', 'sample-lfuda', 'sample-hyperbolic']
 
+#method_list = ['sample-s3fifo']
+
 running_opt = get_running_opt()
 running_opt['ela_mem_tpt'] = 'OFF'
 running_opt['use_penalty'] = 'OFF'
