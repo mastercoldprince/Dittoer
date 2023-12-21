@@ -5,7 +5,7 @@
 #define L_INFO 1
 #define L_ERROR 2
 // NOTE : debug_mode, if not, comment the next line
-#define _DEBUG
+// #define _DEBUG
 #define STR_L_DEBUG "[DEBUG]"
 #define STR_L_INFO "[INFO]"
 #define STR_L_ERROR "[ERROR]"
