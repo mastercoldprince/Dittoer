@@ -92,7 +92,6 @@ for i in scale_instances:
         val = mc.get(f'{i}-success')
 
 
-
 # notify instance controllers to check master change
 mc.set('cluster-change', 1)
 # add empty masters to the cluster
@@ -208,7 +207,7 @@ while True:
         time.sleep(5)
         print(f"Remove {inst}")
         os.system(
-                f'redis-cli --cluster del-node {instance_ips[0]}:7000 {ip_node_id[inst]}')
+            f'redis-cli --cluster del-node {instance_ips[0]}:7000 {ip_node_id[inst]}')
 et = time.time()
 shrink_period = et - st
 print(f"Reshard finishes in {shrink_period}s")
@@ -267,15 +266,15 @@ for m in combined_lat_map:
 sft = [0] + list(agg)[:-1]
 tpt = (agg - sft) / 0.5
 combined_res = {
-        'tpt': list(tpt),
-        'p50_cont': p50_cont,
-        'p99_cont': p99_cont,
-        'rebalance_start_time': res['rebalance_start_time'],
-        'rebalance_end_time': res['rebalance_end_time'],
-        'shrink_start_time': res['shrink_start_time'],
-        'shrink_end_time': res['shrink_end_time'],
-        'shrink_period_1': res['shrink_period_1']
-        }
+    'tpt': list(tpt),
+    'p50_cont': p50_cont,
+    'p99_cont': p99_cont,
+    'rebalance_start_time': res['rebalance_start_time'],
+    'rebalance_end_time': res['rebalance_end_time'],
+    'shrink_start_time': res['shrink_start_time'],
+    'shrink_end_time': res['shrink_end_time'],
+    'shrink_period_1': res['shrink_period_1']
+}
 
 save_res('fig1', combined_res)
 

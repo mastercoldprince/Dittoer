@@ -4,12 +4,13 @@
 #define L_DEBUG 0
 #define L_INFO 1
 #define L_ERROR 2
-// TODO : debug_mode
+// NOTE : debug_mode, if not, comment the next line
 #define _DEBUG
 #define STR_L_DEBUG "[DEBUG]"
 #define STR_L_INFO "[INFO]"
 #define STR_L_ERROR "[ERROR]"
 
+// NOTE : hilight the level you want to print
 //#define VERBO L_INFO
 #define VERBO L_DEBUG
 #include <stdio.h>
