@@ -30,6 +30,8 @@ cmd_manager.execute_all(MN_CPU_CMD)
 #                'cliquemap-precise-lru', 'cliquemap-precise-lfu']
 
 method_list = ['sample-adaptive', 'sample-lru', 'sample-lfu',]
+
+# workload_list = ['ycsba', 'ycsbb', 'ycsbc', 'ycsbd']
 workload_list = ['webmail-all', 'twitter020-10m',
                  'twitter049-10m', 'twitter042-10m', 'ibm044-10m']
 cache_size_list = ['0.2', '0.1', '0.05', '0.01']
@@ -53,10 +55,10 @@ for wl, cache_size in product(workload_list, cache_size_list):
         # start Clients
         time.sleep(5)
         c_prom_list = []
-        for i in range(8):
-            st_cid = i * 8 + 1
+        for i in range(2):
+            st_cid = i * 32 + 1
             c_prom = cmd_manager.execute_on_node(
-                client_ids[i], f"cd {work_dir} && ./run_client_master.sh {method} {st_cid} {wl} 8 64")
+                client_ids[i], f"cd {work_dir} && ./run_client_master.sh {method} {st_cid} {wl} 32 64")
             c_prom_list.append(c_prom)
 
         # wait for Clients and MN

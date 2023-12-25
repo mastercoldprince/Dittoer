@@ -444,6 +444,7 @@ static int load_twitter_workload(char* workload_name,
   return 0;
 }
 
+// NOTE: workload load
 int load_workload(char* workload_name,
                   int num_load_ops,
                   uint32_t server_id,

@@ -21,6 +21,9 @@ cmd_manager.execute_on_nodes(
 method_list = ['sample-lru', 'sample-lfu', 'sample-mru', 'sample-gds', 'sample-lirs', 'sample-fifo',
                'sample-size', 'sample-gdsf', 'sample-lrfu', 'sample-lruk', 'sample-lfuda', 'sample-hyperbolic']
 
+# 跑点其他负载
+workload_list = ['ycsba', 'ycsbb', 'ycsbc', 'ycsbd']
+
 #method_list = ['sample-s3fifo']
 
 running_opt = get_running_opt()
