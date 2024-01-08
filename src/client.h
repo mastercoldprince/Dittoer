@@ -211,9 +211,12 @@ class DMCClient {
   std::vector<uint32_t> expert_reward_cnt_;
 #endif
   std::map<uint32_t, uint32_t> evict_bucket_cnt_;
+<<<<<<< HEAD
   //修改：加了一个本地计数用的哈希表
   std::map<std::string,int> cnt_element;
   //修改结束，后续可能要限制一下它的大小
+=======
+>>>>>>> ac98fc56ab4768120c8dbe57b6b0b9d9732651c5
   std::vector<std::vector<float>> weight_vec_;
   std::vector<uint32_t> expert_evict_cnt_;
 
@@ -260,9 +263,12 @@ class DMCClient {
   void remote_list_unlock(KVOpsCtx* ctx);  // used in evict precise
 
   // evict
+<<<<<<< HEAD
   //修改
   int count_appearance(KVOpsCtx* ctx);
   //修改结束
+=======
+>>>>>>> ac98fc56ab4768120c8dbe57b6b0b9d9732651c5
   int evict(KVOpsCtx* ctx);
   int evict_sample(KVOpsCtx* ctx);
   int evict_sample_naive(KVOpsCtx* ctx);
@@ -287,7 +293,10 @@ class DMCClient {
   int evict_bucket_sample_adaptive_naive(KVOpsCtx* ctx);
   int evict_bucket_sample_adaptive_heavy(KVOpsCtx* ctx);
   int evict_bucket_precise(KVOpsCtx* ctx);
+<<<<<<< HEAD
   int evict_bucket_s3fifo(KVOpsCtx* ctx);
+=======
+>>>>>>> ac98fc56ab4768120c8dbe57b6b0b9d9732651c5
 
   void check_priority(KVOpsCtx* ctx);
 

@@ -29,7 +29,10 @@ class CMDManager(object):
                 pass
 
     def execute_on_node(self, node_id, cmd, asynchronous=True):
+<<<<<<< HEAD
         print("this is node-{}".format(node_id))
+=======
+>>>>>>> ac98fc56ab4768120c8dbe57b6b0b9d9732651c5
         return self._conn_list[node_id].run(f'{env_cmd} && {cmd}', asynchronous=asynchronous)
 
     def get_file(self, node_id, remote, local):

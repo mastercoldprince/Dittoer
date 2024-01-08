@@ -29,7 +29,14 @@ class DMCMemcachedController:
         self.num_sync = 0
         self.num_result = 0
         self.mc = memcache.Client(
+<<<<<<< HEAD
             ['{}:{}'.format(memcached_ip, memcached_port)], debug=True)
+=======
+            # TODO: debug of memcached
+            # ['{}:{}'.format(memcached_ip, memcached_port)], debug=True)
+
+            ['{}:{}'.format(memcached_ip, memcached_port)], debug=False)
+>>>>>>> ac98fc56ab4768120c8dbe57b6b0b9d9732651c5
         assert (self.mc != None)
         self.mc.flush_all()
 

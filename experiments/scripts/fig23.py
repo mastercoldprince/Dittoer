@@ -21,6 +21,14 @@ cmd_manager.execute_on_nodes(
 method_list = ['sample-lru', 'sample-lfu', 'sample-mru', 'sample-gds', 'sample-lirs', 'sample-fifo',
                'sample-size', 'sample-gdsf', 'sample-lrfu', 'sample-lruk', 'sample-lfuda', 'sample-hyperbolic']
 
+<<<<<<< HEAD
+=======
+# 跑点其他负载
+workload_list = ['ycsba', 'ycsbb', 'ycsbc', 'ycsbd']
+
+#method_list = ['sample-s3fifo']
+
+>>>>>>> ac98fc56ab4768120c8dbe57b6b0b9d9732651c5
 running_opt = get_running_opt()
 running_opt['ela_mem_tpt'] = 'OFF'
 running_opt['use_penalty'] = 'OFF'

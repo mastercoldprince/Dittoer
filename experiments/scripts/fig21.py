@@ -25,6 +25,11 @@ cmd_manager.execute_all(FC_CONFIG_CMD)
 MN_CPU_CMD = get_mn_cpu_cmd(config_dir, 1)
 cmd_manager.execute_all(MN_CPU_CMD)
 
+<<<<<<< HEAD
+=======
+# method_list = ['sample-adaptive', 'sample-lru', 'sample-lfu',
+#                'cliquemap-precise-lru', 'cliquemap-precise-lfu']
+>>>>>>> ac98fc56ab4768120c8dbe57b6b0b9d9732651c5
 method_list = ['sample-adaptive', 'sample-lru', 'sample-lfu', ]
 
 # All methods use the same compile option

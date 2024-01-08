@@ -444,6 +444,10 @@ static int load_twitter_workload(char* workload_name,
   return 0;
 }
 
+<<<<<<< HEAD
+=======
+// NOTE: workload load
+>>>>>>> ac98fc56ab4768120c8dbe57b6b0b9d9732651c5
 int load_workload(char* workload_name,
                   int num_load_ops,
                   uint32_t server_id,
@@ -599,4 +603,8 @@ void free_workload(DMCWorkload* wl) {
   free(wl->key_size_list);
   free(wl->val_size_list);
   free(wl->op_list);
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> ac98fc56ab4768120c8dbe57b6b0b9d9732651c5
