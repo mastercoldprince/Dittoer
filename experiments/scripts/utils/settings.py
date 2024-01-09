@@ -1,7 +1,8 @@
 hash_bucket_assoc_setting = 8
 
 hash_bucket_num_setting = {
-    "ycsb": 4192 * 4096,
+        #NOTE: 4192 * 4096 = 17196672
+    "ycsb": 1048 * 4096,
     "webmail-all": {
         "0.5": 122112,
         "0.4": 97664,
@@ -359,10 +360,10 @@ running_default_opt = {
     'use_penalty': 'ON',
     'multi_policy': 'OFF',
 }
-
+#NOTE:hash size
 hash_table_opt = {
     'hash_bucket_assoc': '8',
-    'hash_bucket_num': '17170432'
+    'hash_bucket_num': '7170432'
 }
 
 default_method_opt_dict = {

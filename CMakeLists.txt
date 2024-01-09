@@ -16,8 +16,9 @@ set(ela_mem_tpt OFF CACHE BOOL "set ELA_MEM_TPT")
 set(use_fiber OFF CACHE BOOL "set USE_FIBER")
 set(use_penalty ON CACHE BOOL "set USE_PENALTY")
 set(multi_policy OFF CACHE BOOL "set MULTI_POLICY")
+# 
 set(hash_bucket_assoc 8 CACHE STRING "set HASH_BUCKET_ASSOC_NUM")
-set(hash_bucket_num 17170432 CACHE STRING "set HASH_NUM_BUCKETS")
+set(hash_bucket_num 7170432 CACHE STRING "set HASH_NUM_BUCKETS")
 
 if(use_shard_pqueue)
     message("set USE_SHARD_PQUEUE")

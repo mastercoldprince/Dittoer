@@ -2273,6 +2273,7 @@ void run_client(const InitArgs* args) {
       else if (args->elastic == ELA_MEM)
         pthread_create(&client_tid_list[i], NULL, client_workload_real_ela_mem,
                        &client_main_arg_list[i]);
+       // NOTE:fig15_16, run起来！
       else {
         pthread_create(&client_tid_list[i], NULL, client_workload_real,
                        &client_main_arg_list[i]);

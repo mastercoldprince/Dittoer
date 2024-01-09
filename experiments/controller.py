@@ -61,7 +61,7 @@ class DMCMemcachedController:
             cid = i + self.num_servers
             key = "client-{}-ready-{}".format(cid, self.num_sync)
             # 检查其他的节点有没有向node0发送ready信息
-            # 如果node0
+            # 如果node0没有收到其他节点的ready信息，就会一直等待
             val = self.mc.get(key)
             while val == None:
                 val = self.mc.get(key)
@@ -625,7 +625,7 @@ def control_workload_bench_ela_mem(controller: DMCMemcachedController):
     return combined_dict
 
 
-# fig15_16
+# NOTE:fig15_16
 def control_workload_bench(controller: DMCMemcachedController):
     # sync warmup
     controller.sync_ready_clients()
@@ -820,6 +820,7 @@ if __name__ == '__main__':
         elif args.elastic == 'mem':
             res = control_workload_bench_ela_mem(controller)
         else:
+            # NOTE: fig15_16 && fig23 入口
             res = control_workload_bench(controller)
     elif args.workload == "evict-micro":
         res = control_evict_micro(controller)
@@ -827,19 +828,19 @@ if __name__ == '__main__':
         if args.elastic == 'cpu':
             if args.fiber:
                 res = control_ycsb_bench_ela_cpu_fiber(
-                    controller, args.num_clients, args.fiber)
+                        controller, args.num_clients, args.fiber)
             else:
                 res = control_ycsb_bench_ela_cpu(controller, args.num_clients)
         elif args.elastic == 'mem':
             if args.fiber:
                 res = control_ycsb_bench_ela_mem_fiber(
-                    controller, args.num_clients, args.fiber)
+                        controller, args.num_clients, args.fiber)
             else:
                 res = control_ycsb_bench_ela_mem(controller, args.num_clients)
         else:
             if args.fiber:
                 res = control_ycsb_bench_fiber(
-                    controller, args.num_clients, args.fiber)
+                        controller, args.num_clients, args.fiber)
             else:
                 res = control_ycsb_bench(controller, args.num_clients)
 

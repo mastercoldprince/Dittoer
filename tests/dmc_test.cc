@@ -2,15 +2,15 @@
 
 void DMCTest::setup_server_conf() {
   server_conf_.role = SERVER;
-  server_conf_.conn_type = IB;
+  server_conf_.conn_type = ROCE;
   server_conf_.server_id = 0;
   server_conf_.udp_port = 2333;
   server_conf_.memory_num = 1;
-  strcpy(server_conf_.memory_ip_list[0], "127.0.0.1");
+  strcpy(server_conf_.memory_ip_list[0], "10.10.1.2");
 
-  server_conf_.ib_dev_id = 0;
+  server_conf_.ib_dev_id = 2;
   server_conf_.ib_port_id = 1;
-  server_conf_.ib_gid_idx = 0;
+  server_conf_.ib_gid_idx = 3;
 
   server_conf_.hash_type = HASH_DEFAULT;
 
@@ -30,15 +30,15 @@ void DMCTest::setup_server_conf() {
 
 void DMCTest::setup_client_conf() {
   client_conf_.role = CLIENT;
-  client_conf_.conn_type = IB;
+  client_conf_.conn_type = ROCE;
   client_conf_.server_id = 1;
   client_conf_.udp_port = 2333;
   client_conf_.memory_num = 1;
-  strcpy(client_conf_.memory_ip_list[0], "127.0.0.1");
+  strcpy(client_conf_.memory_ip_list[0],"10.10.1.2");
 
-  client_conf_.ib_dev_id = 0;
+  client_conf_.ib_dev_id = 2;
   client_conf_.ib_port_id = 1;
-  client_conf_.ib_gid_idx = 0;
+  client_conf_.ib_gid_idx = 3;
 
   client_conf_.hash_type = HASH_DEFAULT;
 

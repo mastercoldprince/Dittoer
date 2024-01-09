@@ -536,6 +536,7 @@ int UDPNetworkManager::rdma_batch_read_sid_sync(uint16_t server,
   return 0;
 }
 
+// TODO: add read time count
 int UDPNetworkManager::rdma_read_sid_sync(uint16_t server,
                                           uint64_t remote_addr,
                                           uint32_t rkey,

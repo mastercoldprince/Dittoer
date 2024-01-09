@@ -1701,6 +1701,7 @@ kv_set_1s_retry:
   return set_miss ? -1 : 0;
 }
 
+// TODO: two rdma read && time record
 int DMCClient::kv_get_1s(void* key,
                          uint32_t key_size,
                          __OUT void* val,
@@ -1710,12 +1711,14 @@ int DMCClient::kv_get_1s(void* key,
   printd(L_DEBUG, "get %s", key_buf);
   KVOpsCtx ctx;
   create_op_ctx(&ctx, key, key_size, NULL, 0, GET);
+// NOTE: 读取索引，
   kv_get_read_index(&ctx);
   match_fp_and_find_empty(&ctx);
   if (ctx.num_fp_match == 0) {
     printd(L_DEBUG, "No match fp found");
     return -1;  // not found
   } else {
+    // NOTE:读取对应kv，两次rdma read
     read_and_find_kv(&ctx);
     if (ctx.key_found == false) {
       printd(L_DEBUG, "miss %s", key_buf);

@@ -24,7 +24,7 @@ method_list = ['sample-lru', 'sample-lfu', 'sample-mru', 'sample-gds', 'sample-l
 # 跑点其他负载
 workload_list = ['ycsba', 'ycsbb', 'ycsbc', 'ycsbd']
 
-#method_list = ['sample-s3fifo']
+# method_list = ['sample-hyperbolic']
 
 running_opt = get_running_opt()
 running_opt['ela_mem_tpt'] = 'OFF'

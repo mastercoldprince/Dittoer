@@ -59,11 +59,14 @@ for wl, cache_size in product(workload_list, cache_size_list):
             st_cid = i * 32 + 1
             c_prom = cmd_manager.execute_on_node(
                 client_ids[i], f"cd {work_dir} && ./run_client_master.sh {method} {st_cid} {wl} 32 64")
-            c_prom_list.append(c_prom)
+
+            c_prom_list.append((client_ids[i],c_prom))
 
         # wait for Clients and MN
         for c_prom in c_prom_list:
-            c_prom.join()
+            print(c_prom[0])
+            c_prom[1].join()
+
         mn_prom.join()
 
         raw_res = controller_prom.join()

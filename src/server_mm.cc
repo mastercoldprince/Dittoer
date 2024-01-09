@@ -40,7 +40,8 @@ ServerMM::ServerMM(const DMCConfig* conf, struct ibv_pd* pd) {
   free_space_addr_ = stateful_area_addr_ + stateful_area_len_;
   free_space_len_ = base_len_ - index_area_len_ - stateful_area_len_;
   printf("cache size: %ld\n", free_space_len_ / conf->block_size);
-
+ printf("hash num buckets: %ld\n",  HASH_NUM_BUCKETS);
+    printf("hash bucket assoc num: %ld\n",  HASH_BUCKET_ASSOC_NUM);
   printd(L_INFO,
          "ServerMM initialized with parameters:\n"
          "\tsegment_size: %d, base_addr: 0x%lx, base_len: %ld \n"

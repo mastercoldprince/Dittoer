@@ -1,7 +1,7 @@
-cluster_ips = [f'node-{i}' for i in range(10)]
+cluster_ips = [f'node-{i}' for i in range(3)]
 master_id = 0
 mn_id = 1
-client_ids = [i for i in range(2, 10)]
+client_ids = [i for i in range(2, 3)]
 
 default_fc_size = 10*1024*1024
 
