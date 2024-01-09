@@ -213,8 +213,6 @@ static inline Priority* dmc_new_priority(uint8_t eviction_prio) {
       return new HyperbolicPriority();
     case EVICT_PRIO_NON:
       return new DumbPriority();
-    // case EVICT_PRIO_S3FIFO:
-    //   return new S3FIFOPriority();
     default:
       printd(L_ERROR, "Unknown eviction type %d", eviction_prio);
       return NULL;

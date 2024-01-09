@@ -7,8 +7,8 @@
  "memory_ip_list": [
   "10.10.1.2"
  ],
- "ib_dev_id": 2,
- "ib_port_id": 1,
+ "ib_dev_id": 0,
+ "ib_port_id": 2,
  "hash_type": "DEFAULT",
  "eviction_type": "EVICT_SAMPLE_ADAPTIVE",
  "experts": [
@@ -30,5 +30,5 @@
  "freq_cache_size": 10485760,
  "use_async_weight": true,
  "num_server_threads": 4,
- "ib_gid_idx": 3
+ "ib_gid_idx": 1
 }

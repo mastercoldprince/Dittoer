@@ -14,6 +14,7 @@
 
 DMCClient::DMCClient(const DMCConfig* conf) {
   evict_bucket_cnt_.clear();
+  cnt_element.clear();
   srand(conf->server_id);
   my_sid_ = conf->server_id;
   num_servers_ = conf->memory_num;
@@ -389,6 +390,20 @@ int DMCClient::alloc_segment(KVOpsCtx* ctx) {
 #endif
 }
 
+//修改：过滤次数
+int DMCClient::count_appearance(KVOpsCtx* ctx){
+  //逻辑：查一个表cnt_element
+  //返回it->second
+  ObjHeader* header = (ObjHeader*)ctx->read_buf_laddr;
+  uint32_t key_len = header->key_size;
+  void* key = (void*)(ctx->read_buf_laddr + sizeof(ObjHeader));
+  std::string key_s(key, key_len);
+  std::map<std::string,int>::iterator it = cnt_element.find(key_s);
+  if(it == cnt_element.end())
+    return 0;
+  return it->second;
+}
+
 int DMCClient::connect_all_rc_qp() {
   int ret;
   for (int i = 0; i < num_servers_; i++) {
@@ -679,6 +694,9 @@ void DMCClient::kv_set_delete_duplicate(KVOpsCtx* ctx) {
 
 int DMCClient::evict_bucket(KVOpsCtx* ctx) {
   num_bucket_evict_++;
+  //想法：在这也搞一个跳过evict的逻辑
+  if(count_appearance(ctx) <= 1)
+    return 0; //目前返回0，表示不插入到cache里面，这时候继续访问应该有一个固定的延迟
   int ret = 0;
   switch (eviction_type_) {
     case EVICT_NON:
@@ -699,6 +717,9 @@ int DMCClient::evict_bucket(KVOpsCtx* ctx) {
       break;
     case EVICT_PRECISE:
       ret = evict_bucket_precise(ctx);
+      break;
+    case EVICT_S3FIFO:
+      ret = evict_bucket_s3fifo(ctx);
       break;
     default:
       printd(L_ERROR, "No supported bucket eviction");
@@ -1184,6 +1205,11 @@ int DMCClient::evict_bucket_precise(KVOpsCtx* ctx) {
   return 0;
 }
 
+int DMCClient::evict_bucket_s3fifo(KVOpsCtx* ctx){
+  printd(L_DEBUG, "Evict bucket s3 fifo");
+  return 0;
+}
+
 void DMCClient::find_empty(KVOpsCtx* ctx) {
   printd(L_DEBUG, "find_empty");
   assert(ctx->num_free_slot > 0);
@@ -1639,6 +1665,10 @@ int DMCClient::kv_set_1s(void* key,
                          void* val,
                          uint32_t val_size) {
   KVOpsCtx ctx;
+  //修改：增加本地的计数
+  std::string key_s(key, key_size);
+  cnt_element[key_s]++;
+  //修改结束
   int ret = 0;
   bool set_miss = true;
   create_op_ctx(&ctx, key, key_size, val, val_size, SET);
@@ -1709,6 +1739,10 @@ int DMCClient::kv_get_1s(void* key,
   char key_buf[256] = {0};
   memcpy(key_buf, key, key_size);
   printd(L_DEBUG, "get %s", key_buf);
+  //修改：增加本地的计数
+  std::string key_s(key, key_size);
+  cnt_element[key_s]++;
+  //修改结束
   KVOpsCtx ctx;
   create_op_ctx(&ctx, key, key_size, NULL, 0, GET);
 // NOTE: 读取索引，
@@ -1740,6 +1774,9 @@ int DMCClient::kv_get_1s(void* key,
 
 int DMCClient::evict(KVOpsCtx* ctx) {
   printd(L_DEBUG, "Evict");
+  //想法：在这里设置一个过滤逻辑，搞一个本地的哈希表，如果一个对象的次数小于等于1次，直接跳过evict
+  if(count_appearance(ctx) <= 1)
+    return 0;
   num_evict_++;
   int ret = 0;
   switch (eviction_type_) {

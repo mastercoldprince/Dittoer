@@ -120,6 +120,17 @@ conda init zsh
 # then carefully recreate it with a larger size at the same position
 echo "p
 d
+<<<<<<< HEAD
+1
+n
+1
+
+
+N
+p
+w
+
+=======
 
 d
 
@@ -138,6 +149,7 @@ p
 No
 p
 w
+>>>>>>> ac98fc56ab4768120c8dbe57b6b0b9d9732651c5
 " | sudo fdisk /dev/sda
 
 # chsh
