@@ -1,6 +1,6 @@
 {
   "servers": [
-    "optane06"
+    "node-1"
   ],
   "port": 12345,
   "block_size": 8,

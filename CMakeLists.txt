@@ -13,4 +13,5 @@ add_subdirectory(test)
 
 add_subdirectory(hashtable)
 add_subdirectory(btree)
+add_definitions(-DUSE_RESIZE)
 add_subdirectory(dtx)

@@ -94,6 +94,7 @@ namespace sds {
             } else if (option == Option::PostRequest) {
                 return post_request();
             } else {
+                //gala：好像只有sync的时候才会等待啊
                 return sync();
             }
         }

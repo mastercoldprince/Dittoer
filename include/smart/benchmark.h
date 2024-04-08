@@ -37,6 +37,9 @@
 #include <functional>
 #include <iomanip>
 #include <algorithm>
+#include <iostream>
+#include <fstream>
+#include <chrono>
 
 // #define DISK_DATASET
 
@@ -571,12 +574,18 @@ namespace sds {
             void worker_multitask_func(int tid) {
                 BindCore(tid);
                 if (insert_before_execution_) {
+                    //搞个计时逻辑
+                    std::ofstream outFile("log.txt");
                     for (uint64_t key = tid; key < max_key_; key += nr_threads_) {
+                        auto start = std::chrono::high_resolution_clock::now();
                         int rc = index_->insert(build_key_str(key), build_val_str());
+                        auto end = std::chrono::high_resolution_clock::now();
+                        auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
                         if (rc) {
                             SDS_INFO("unexpected value");
                             exit(EXIT_FAILURE);
                         }
+                        outFile << "Thread id: " << tid << "\tDuration:" << duration.count() << std::endl;
                     }
                     if (tid == 0) SDS_INFO("inserted %ld keys", max_key_);
                 }

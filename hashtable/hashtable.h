@@ -46,7 +46,7 @@
 
 using namespace sds;
 
-//#define USE_RESIZE
+#define USE_RESIZE
 
 class RemoteHashTable {
 public:
@@ -129,7 +129,7 @@ private:
     }
 
 private:
-    const static size_t kMaxGlobalDepth = 8;
+    const static size_t kMaxGlobalDepth = 10;
     const static size_t kMaxSubTables = 1 << kMaxGlobalDepth;
     const static size_t kAssociatedWays = 7;
     const static size_t kMainBuckets = 200000;
@@ -218,6 +218,8 @@ private:
     int move_bucket(int old_suffix, int new_suffix, int depth, int bucket_id);
 
     int read_block(const std::string &key, std::string &value, Slot &slot, bool retry = true);
+
+    int read_nonblock(const std::string &key, std::string &value, Slot &slot, bool retry = true);
 
     int write_block(const std::string &key, const std::string &value, Slot &slot);
 

@@ -306,7 +306,13 @@ int RemoteHashTable::update(const std::string &key, const std::string &value) {
             for (int j = 0; !slot && j < kAssociatedWays; ++j) {
                 auto &entry = bucket[i].buf->slots[j];
                 if (entry.raw && entry.fp == get_fingerprint(hash[0])) {
+                    //gala：把这里的read改成非阻塞式的
+                    //rc = read_block(key, old_value, entry);
+#ifdef USING_FENCE
+                    rc = read_nonblock(key, old_value, entry);
+#else
                     rc = read_block(key, old_value, entry);
+#endif
                     if (rc == 0) {
                         slot = &entry;
                         slot_addr = get_slot_addr(bucket[i], j);
@@ -815,6 +821,7 @@ int RemoteHashTable::read_block(const std::string &key, std::string &value, Slot
 
     if (retry) {
         do {
+            //gala: 前面先写了，写的时候是不sync的；在这个地方读的时候一起sync，这个会等待
             int rc = node_->read(block, GlobalAddress(node_id_, slot.pointer),
                                  block_len, Initiator::Option::Sync);
             assert(!rc);
@@ -837,6 +844,39 @@ int RemoteHashTable::read_block(const std::string &key, std::string &value, Slot
     value = std::string(block_value, block->value_len);
     return 0;
 }
+
+#ifdef USING_FENCE
+int RemoteHashTable::read_nonblock(const std::string &key, std::string &value, Slot &slot, bool retry) {
+    size_t block_len = slot.len * kBlockLengthUnit;
+    assert(block_len);
+    BlockHeader *block = tl_data_[GetThreadID()][GetTaskID()].block_buf;
+
+    if (retry) {
+        do {
+            //gala: 前面先写了，写的时候是不sync的；在这个地方读的时候一起sync，这个不等待
+            int rc = node_->read(block, GlobalAddress(node_id_, slot.pointer),
+                                 block_len);
+            assert(!rc);
+        } while (check_kv_block_crc32(block, block_len));
+    } else {
+        int rc = node_->read(block, GlobalAddress(node_id_, slot.pointer),
+                             block_len);
+        assert(!rc);
+        if (check_kv_block_crc32(block, block_len)) {
+            return ENOENT;
+        }
+    }
+
+    const char *block_key = get_kv_block_key(block);
+    const char *block_value = get_kv_block_value(block);
+    if (strncmp(block_key, key.c_str(), block->key_len) != 0) {
+        return ENOENT;
+    }
+
+    value = std::string(block_value, block->value_len);
+    return 0;
+}
+#endif
 
 int RemoteHashTable::write_block(const std::string &key, const std::string &value, Slot &slot) {
     size_t block_len = get_kv_block_len(key, value);
@@ -883,8 +923,14 @@ int RemoteHashTable::write_block(const std::string &key, const std::string &valu
 
 int RemoteHashTable::atomic_update_slot(uint64_t addr, Slot *slot, Slot &new_val) {
     uint64_t old_val = slot->raw;
+    //gala：尝试直接把这里的cas加上fence
+#ifdef USING_FENCE
+    int rc = node_->compare_and_swap(slot, GlobalAddress(node_id_, addr), old_val, new_val.raw,
+                                     Initiator::Option::Sync, IBV_SEND_FENCE);
+#else
     int rc = node_->compare_and_swap(slot, GlobalAddress(node_id_, addr), old_val, new_val.raw,
                                      Initiator::Option::Sync);
+#endif
     assert(!rc);
     return old_val == slot->raw ? 0 : EAGAIN;
 }
